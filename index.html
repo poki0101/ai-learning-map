@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的 AI 學習地圖</title>
+<meta name="description" content="藥學背景的 AI 學習路線：入門、中級、進階共 14 支 YouTube 影片，附每支的學習目的。">
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --ink:#1d1d1b; --muted:#6b6a65; --line:#e4e2db;
+  --l1:#2f7d5b; --l1-bg:#e6f2ec; --l2:#2a5fa8; --l2-bg:#e6edf8; --l3:#9a4a1f; --l3-bg:#f6ebe3;
+  --done:#9b9a94;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161614; --card:#201f1d; --ink:#ecebe6; --muted:#a3a29b; --line:#33322e;
+    --l1:#6cc49b; --l1-bg:#1d2e26; --l2:#7fa8e6; --l2-bg:#1c2534; --l3:#e0956b; --l3-bg:#33231a;
+    --done:#6f6e68;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161614; --card:#201f1d; --ink:#ecebe6; --muted:#a3a29b; --line:#33322e;
+  --l1:#6cc49b; --l1-bg:#1d2e26; --l2:#7fa8e6; --l2-bg:#1c2534; --l3:#e0956b; --l3-bg:#33231a;
+  --done:#6f6e68;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:40px 16px 64px}
+header h1{font-size:clamp(28px,6vw,40px);line-height:1.25;margin:0 0 12px}
+header p{color:var(--muted);margin:0 0 8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}
+.chip{font-size:13px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--card)}
+.progress{margin:24px 0 8px;font-size:14px;color:var(--muted)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .3s}
+.how{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:28px 0}
+.how h2{font-size:17px;margin:0 0 8px}
+.how ol{margin:0;padding-left:20px}
+section.level{margin-top:44px}
+.level-head{border-left:4px solid var(--c);padding-left:14px;margin-bottom:16px}
+.level-head .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--c);background:var(--cb);padding:2px 8px;border-radius:4px}
+.level-head h2{font-size:22px;margin:6px 0 4px}
+.level-head .goal{margin:0;color:var(--muted)}
+.level-head .src{font-size:13px;color:var(--muted);margin-top:4px}
+.level-head .src a{color:var(--c)}
+.l1{--c:var(--l1);--cb:var(--l1-bg)} .l2{--c:var(--l2);--cb:var(--l2-bg)} .l3{--c:var(--l3);--cb:var(--l3-bg)}
+.video{display:grid;grid-template-columns:160px 1fr;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;align-items:start}
+.thumb{position:relative;display:block;border-radius:8px;overflow:hidden;aspect-ratio:16/9;background:var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .len{position:absolute;right:6px;bottom:6px;font-size:12px;background:rgba(0,0,0,.75);color:#fff;padding:1px 6px;border-radius:4px}
+.num{font-size:12px;font-weight:700;color:var(--c)}
+.video h3{font-size:15px;line-height:1.5;margin:2px 0 6px}
+.video h3 a{color:inherit;text-decoration:none}
+.video h3 a:hover{text-decoration:underline}
+.why{font-size:14px;margin:0;color:var(--ink)}
+.why b{color:var(--c)}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-top:8px;cursor:pointer;user-select:none}
+.check input{accent-color:var(--c);width:16px;height:16px}
+.video.is-done{opacity:.6}
+.video.is-done h3{text-decoration:line-through;text-decoration-color:var(--done)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (max-width:520px){
+  .video{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>我的 AI 學習地圖</h1>
+  <p>藥學系畢業、沒有資工背景，我是照這個順序把 AI 學起來的。</p>
+  <p>從「先動手做出東西」，到「聽懂專有名詞」，再到「做得穩、能上線」。14 支影片，不用一次看完。</p>
+  <div class="meta">
+    <span class="chip">入門 5 支</span><span class="chip">中級 5 支</span><span class="chip">進階 4 支</span><span class="chip">總長約 4.6 小時</span>
+  </div>
+  <div class="progress"><span id="progText">已看 0 / 14</span><div class="bar"><i id="progBar"></i></div></div>
+</header>
+
+<div class="how">
+  <h2>怎麼用這張地圖</h2>
+  <ol>
+    <li>照順序看：每一階都在幫下一階打底。</li>
+    <li>每支影片先讀「學習目的」，看的時候只抓這一件事就好。</li>
+    <li>看完打勾，進度只存在你自己的瀏覽器。</li>
+    <li>邊看邊動手：找一個小作業或小工具，跟著做一次比看十次有用。</li>
+  </ol>
+</div>
+
+<main id="map"></main>
+
+<footer>
+  <p>影片版權屬於各原頻道，本頁只整理連結與我的學習筆記，非業配。</p>
+  <p>醫療相關的 AI 輸出一律回頭查原始文獻與指引；上傳任何資料給 AI 之前，先去識別化。</p>
+</footer>
+</div>
+
+<script>
+const LEVELS = [
+  {
+    cls: "l1", tag: "LEVEL 1 · 入門", title: "先動手：用 Claude 做出第一個東西",
+    goal: "知道 AI 可以幫你做到什麼，並且一開始就養成安全的使用習慣。",
+    src: "工程師下班有約", srcUrl: "https://www.youtube.com/@dlcorner",
+    videos: [
+      ["tQZXzb88jmo", "給我 1 分鐘，帶你認識現在最夯的 Vibe Coding", "1:48",
+        "暖身：理解「用說的，讓 AI 幫你寫程式」是什麼意思。"],
+      ["Mx7d0nSF61k", "【AI 陷阱 EP3】資料別直接丟 AI！Word、Excel、PDF、TXT 一鍵去識別化", "13:45",
+        "上傳前先去識別化。對藥學系最重要的一課：病人與實習資料不能直接丟給 AI。"],
+      ["BPdyiaC-3Lw", "【Claude Code 危險模式】怕 AI 搞壞電腦？用 Docker 隔離沙盒讓它火力全開", "18:48",
+        "理解「權限」與「隔離環境」：讓 AI 動手之前，先決定它能碰什麼、不能碰什麼。"],
+      ["16IIi5uNx_M", "【Claude Code × Spec-Kit 教學】用規格驅動開發全端專案", "28:19",
+        "先寫規格再叫 AI 做。就像先寫實驗計畫再做實驗，結果才不會每次都不一樣。"],
+      ["FeQv7mngg6Q", "【Claude Code 實戰】一次搞懂 OpenSpec，讓專案每次迭代都有依據", "37:25",
+        "讓每一次修改都有紀錄、可追溯：專案做久了也知道當初為什麼這樣改。"]
+    ]
+  },
+  {
+    cls: "l2", tag: "LEVEL 2 · 中級", title: "聽懂行話：專有名詞與 AI 工作流",
+    goal: "補齊 Token、Agent、Skill、MCP、Harness 這些詞，看懂一個完整的 AI 工作流長什麼樣。",
+    src: "馬克的技術工作坊", srcUrl: "https://www.youtube.com/@" + encodeURIComponent("马克的技术工作坊"),
+    videos: [
+      ["QNiaoD5RxPA", "Token 到底是什麼？—— 揭秘大模型背後的「文字壓縮術」", "10:32",
+        "最基本的單位：理解為什麼 AI 有字數上限、為什麼長對話會「忘記」前面。"],
+      ["7qO8-kx3gW8", "從 LLM 到 Agent Skill，一期視頻帶你打通底層邏輯！", "32:31",
+        "一次串起 LLM → 提示詞 → Agent → 工具 → Skill，建立整張名詞地圖。"],
+      ["yjBUnbRgiNs", "MCP 終極指南 - 從原理到實戰，帶你深入掌握 MCP（基礎篇）", "27:06",
+        "MCP 是 AI 連接外部工具與資料的接口，理解它就懂 AI 怎麼「接上」PubMed 這類資源。"],
+      ["7nCzfgDjSo8", "Harness Engineering 到底是什麼？概念、實戰與爭議，一次全部講清楚", "37:24",
+        "為什麼 AI 外面那層規則、檢查與人工審核，比提示詞本身更重要。醫學內容尤其如此。"],
+      ["KJybu1Y2tyY", "我的 AI 編程全流程：如何使用 AI 穩定交付一個高質量的產品", "24:55",
+        "把前面的名詞放回真實流程：從需求、拆解、實作到驗收，看一個人怎麼穩定交付。"]
+    ]
+  },
+  {
+    cls: "l3", tag: "LEVEL 3 · 進階", title: "做得穩：上線、資安與維護的工程觀念",
+    goal: "從「做得出來」走到「敢給別人用」：理解 AI 做的東西上線後會遇到什麼問題。",
+    src: "Debug 土撥鼠", srcUrl: "https://www.youtube.com/@debugtuboshu",
+    videos: [
+      ["cRFSIKBgrdc", "Vibe Coding 越做越糟？AI 寫得很快，死得更快！", "11:11",
+        "技術債：為什麼越改越亂，以及什麼時候該停下來整理。"],
+      ["t5CtfUWJjm4", "為什麼你用 AI 寫的網站，一上線就掛？", "12:07",
+        "本機能跑不等於上線能用：部署、流量與環境差異。"],
+      ["Vhz6JV5Nxp4", "AI 做的網站，你敢直接上線嗎？一個漏洞就可能被抄家", "8:14",
+        "資安基本觀念：金鑰、權限與常見漏洞。牽涉健康資料時更不能省。"],
+      ["9_XJBxmGF4g", "AI 做的網站上線後，想換平台跑得掉嗎？", "13:27",
+        "平台綁定：一開始選工具時就要想好，之後搬不搬得走。"]
+    ]
+  }
+];
+
+const KEY = "ai-learning-map-done";
+let done = {};
+try { done = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { done = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} };
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+let n = 0;
+const total = LEVELS.reduce((a, l) => a + l.videos.length, 0);
+document.getElementById("map").innerHTML = LEVELS.map(l => `
+  <section class="level ${l.cls}">
+    <div class="level-head">
+      <span class="tag">${l.tag}</span>
+      <h2>${l.title}</h2>
+      <p class="goal">${l.goal}</p>
+      <div class="src">頻道：<a href="${l.srcUrl}" target="_blank" rel="noopener">${l.src}</a></div>
+    </div>
+    ${l.videos.map(([id, title, len, why]) => {
+      n++;
+      const url = "https://www.youtube.com/watch?v=" + id;
+      return `
+      <article class="video${done[id] ? " is-done" : ""}" data-id="${id}">
+        <a class="thumb" href="${url}" target="_blank" rel="noopener" aria-label="${esc(title)}">
+          <img src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" alt="" loading="lazy"><span class="len">${len}</span>
+        </a>
+        <div>
+          <div class="num">${String(n).padStart(2, "0")}</div>
+          <h3><a href="${url}" target="_blank" rel="noopener">${esc(title)}</a></h3>
+          <p class="why"><b>學習目的</b>　${why}</p>
+          <label class="check"><input type="checkbox"${done[id] ? " checked" : ""}> 看完了</label>
+        </div>
+      </article>`;
+    }).join("")}
+  </section>`).join("");
+
+const update = () => {
+  const c = Object.values(done).filter(Boolean).length;
+  document.getElementById("progText").textContent = `已看 ${c} / ${total}`;
+  document.getElementById("progBar").style.width = (c / total * 100) + "%";
+};
+document.querySelectorAll(".video input").forEach(box => box.addEventListener("change", e => {
+  const card = e.target.closest(".video");
+  done[card.dataset.id] = e.target.checked;
+  card.classList.toggle("is-done", e.target.checked);
+  save(); update();
+}));
+update();
+</script>
+</body>
+</html>
